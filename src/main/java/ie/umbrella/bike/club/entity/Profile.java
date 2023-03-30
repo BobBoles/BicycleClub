@@ -1,17 +1,11 @@
 package ie.umbrella.bike.club.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@Builder
 @Entity
-@Table(name = "profile]")
+@Table(name = "profile")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +14,44 @@ public class Profile {
     private String bio;
     @Temporal(TemporalType.DATE)
     private LocalDate dob;
+    public Profile() {
+    }
 
-    @OneToOne(mappedBy = "profile")
-    private Member member;
+    public Profile(String address, String bio, LocalDate dob) {
+        this.address = address;
+        this.bio = bio;
+        this.dob = dob;
+    }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public String getBio() {
+        return this.bio;
+    }
+
+    public LocalDate getDob() {
+        return this.dob;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
 }

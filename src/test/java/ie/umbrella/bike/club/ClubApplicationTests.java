@@ -10,4 +10,5 @@ class ClubApplicationTests {
 	void contextLoads() {
 	}
 
+
 }

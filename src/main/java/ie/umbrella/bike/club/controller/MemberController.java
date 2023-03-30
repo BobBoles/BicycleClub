@@ -4,10 +4,14 @@ import ie.umbrella.bike.club.entity.Member;
 import ie.umbrella.bike.club.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/bicycleclub")
@@ -18,37 +22,26 @@ public class MemberController {
 
     @GetMapping
     public List<Member> getAllMembers() {
-        return memberService.getAllMembers();
+        return memberService.getAll();
     }
 
-    @PostMapping
+    @PostMapping("/")
     public Member create(@RequestBody Member member){
         return memberService.createNewMember(member);
     }
 
     @PostMapping("/{id}")
     public Member update(@PathVariable Long id, @RequestBody Member member){
-        Optional<Member> retrieved = memberService.findMemberById(id);
-        if(retrieved.isEmpty())
-        {
-            throw new RuntimeException("Member Not Found");
-        }
-        return memberService.update(member);
+        return memberService.findMemberById(id);
     }
 
     @GetMapping("/{id}")
-    public Optional<Member> findMember(@PathVariable Long id) {
+    public Member findMember(@PathVariable Long id) {
         return memberService.findMemberById(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity <Void> deleteMember(@PathVariable Long id){
-        Optional <Member> optionalMember = memberService.findMemberById(id);
-        if (optionalMember.isPresent()) {
-            memberService.deleteMember(id);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity <Member> deleteMember(@PathVariable Long id){
+        return memberService.deleteMember(id);
     }
 }
